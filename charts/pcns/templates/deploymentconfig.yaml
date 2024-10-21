@@ -1,14 +1,14 @@
 {{ $dbHostName := .Values.config.configMap.SERVER_DB_HOST }}
 {{ $dbSecretName := printf "%s-%s" (include "pcns.fullname" .) "passphrase" }}
-{{- if .Values.patroni.enabled }}
-{{ $dbHostName = include "patroni.fullname" .Subcharts.patroni }}
-{{ $dbSecretName = include "patroni.fullname" .Subcharts.patroni }}
+{{- if .Values.crunchy.enabled }}
+{{ $dbHostName = include "crunchy.fullname" .Subcharts.crunchy }}
+{{ $dbSecretName = include "crunchy.fullname" .Subcharts.crunchy }}
 {{- end }}
 
 {{- define "pcns.connectsTo" -}}
 apiVersion: apps/v1
 kind: StatefulSet
-name: {{ include "patroni.fullname" .Subcharts.patroni }}
+name: {{ include "crunchy.fullname" .Subcharts.crunchy }}
 {{- end }}
 ---
 apiVersion: apps.openshift.io/v1
@@ -17,7 +17,7 @@ metadata:
   name: {{ include "pcns.fullname" . }}
   labels:
     {{- include "pcns.labels" . | nindent 4 }}
-  {{- if .Values.patroni.enabled }}
+  {{- if .Values.crunchy.enabled }}
   annotations:
     app.openshift.io/connects-to: '[{{ include "pcns.connectsTo" . | fromYaml | toJson }}]'
   {{- end }}
