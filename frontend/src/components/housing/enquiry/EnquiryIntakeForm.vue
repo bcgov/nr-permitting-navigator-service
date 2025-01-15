@@ -7,15 +7,7 @@ import { useRouter } from 'vue-router';
 import { object, string } from 'yup';
 
 import BackButton from '@/components/common/BackButton.vue';
-import {
-  EditableDropdown,
-  Dropdown,
-  FormNavigationGuard,
-  InputMask,
-  InputText,
-  RadioList,
-  TextArea
-} from '@/components/form';
+import { Dropdown, FormNavigationGuard, InputMask, InputText, TextArea } from '@/components/form';
 import CollectionDisclaimer from '@/components/housing/CollectionDisclaimer.vue';
 import { Button, Card, Divider, useConfirm, useToast } from '@/lib/primevue';
 import { enquiryService, submissionService } from '@/services';
@@ -28,7 +20,6 @@ import { confirmationTemplateEnquiry } from '@/utils/templates';
 import { contactValidator } from '@/validators';
 
 import type { Ref } from 'vue';
-import type { IInputEvent } from '@/interfaces';
 import type { Submission } from '@/types';
 import { omit } from '@/utils/utils';
 
@@ -156,12 +147,6 @@ function onInvalidSubmit(e: any) {
   document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-function onRelatedActivityInput(e: IInputEvent) {
-  filteredProjectActivityIds.value = projectActivityIds.value.filter((id) =>
-    id.toUpperCase().includes(e.target.value.toUpperCase())
-  );
-}
-
 async function onSubmit(data: any) {
   editable.value = false;
 
@@ -284,7 +269,8 @@ onBeforeMount(async () => {
 
       <Card>
         <template #title>
-          <span class="section-header">Who is the primary contact regarding this project?</span>
+          <span class="section-header">{{ t('enquiryIntakeForm.contactInformation') }}</span>
+
           <Divider type="solid" />
         </template>
         <template #content>
@@ -339,67 +325,6 @@ onBeforeMount(async () => {
       </Card>
       <Card>
         <template #title>
-          <span class="section-header">
-            Is this enquiry related to an existing project that you are working on with a Navigator?
-          </span>
-          <Divider type="solid" />
-        </template>
-        <template #content>
-          <div class="formgrid grid">
-            <RadioList
-              class="col-12"
-              name="basic.isRelated"
-              :bold="false"
-              :disabled="!editable"
-              :options="YES_NO_LIST"
-              @on-click="
-                (e: string) => {
-                  if (e === BasicResponse.YES) formRef?.setFieldValue('basic.relatedActivityId', null);
-                  else if (e === BasicResponse.NO) formRef?.setFieldValue('basic.applyForPermitConnect', null);
-                }
-              "
-            />
-          </div>
-        </template>
-      </Card>
-      <Card v-if="values.basic?.isRelated === BasicResponse.YES">
-        <template #title>
-          <div class="flex">
-            <span class="section-header">
-              Enter the project ID given to you when you registered your project with a Navigator
-            </span>
-            <div
-              v-tooltip.right="t('enquiryIntakeForm.projectIdTooltip')"
-              v-tooltip.focus.right="t('enquiryIntakeForm.projectIdTooltip')"
-              tabindex="0"
-            >
-              <font-awesome-icon icon="fa-solid fa-circle-question" />
-            </div>
-          </div>
-          <Divider type="solid" />
-        </template>
-        <template #content>
-          <div class="formgrid grid">
-            <EditableDropdown
-              class="col-3"
-              name="basic.relatedActivityId"
-              label="Project ID"
-              :disabled="!editable"
-              :options="filteredProjectActivityIds"
-              :get-option-label="
-                (e: string) => {
-                  const name = submissions.find((x) => x.activityId === e)?.projectName;
-                  if (name) return `${e} - ${name}`;
-                  else return e;
-                }
-              "
-              @on-input="onRelatedActivityInput"
-            />
-          </div>
-        </template>
-      </Card>
-      <Card v-if="values.basic?.isRelated !== undefined">
-        <template #title>
           <span class="section-header">Tell us about your enquiry</span>
           <Divider type="solid" />
         </template>
@@ -411,38 +336,6 @@ onBeforeMount(async () => {
               placeholder="Type here..."
               :disabled="!editable"
             />
-          </div>
-        </template>
-      </Card>
-      <Card v-if="values.basic?.isRelated === BasicResponse.NO">
-        <template #title>
-          <div class="flex">
-            <span class="section-header">Would you like to register your project with a Navigator?</span>
-            <div
-              v-tooltip.right="t('enquiryIntakeForm.registerEnquiryTooltip')"
-              v-tooltip.focus.right="t('enquiryIntakeForm.registerEnquiryTooltip')"
-              tabindex="0"
-            >
-              <font-awesome-icon icon="fa-solid fa-circle-question" />
-            </div>
-          </div>
-          <Divider type="solid" />
-        </template>
-        <template #content>
-          <div class="formgrid grid">
-            <RadioList
-              class="col-12"
-              name="basic.applyForPermitConnect"
-              :bold="false"
-              :disabled="!editable"
-              :options="YES_NO_LIST"
-            />
-            <div
-              v-if="values.basic?.applyForPermitConnect === BasicResponse.YES && editable"
-              class="col-12 text-blue-500"
-            >
-              Please proceed to the next page to register your project with a Navigator.
-            </div>
           </div>
         </template>
       </Card>

@@ -6,6 +6,7 @@
     "deleteTooltip": "Delete document"
   },
   "enquiryIntakeForm": {
+    "contactInformation": "Contact information",
     "projectIdTooltip": "Project ID can be found in the confirmation email you received at the time of submission.",
     "registerEnquiryTooltip": "Consider registering if you are working or getting started on a housing project."
   },
@@ -86,7 +87,7 @@
     "projectState": "Project state",
     "projectsEmpty": "Submit a new project to the Navigator Service to found out what permits are required",
     "projectsTooltip": "Submit a housing project to the Navigator service to find out what permits are required for your projects, track permit applications, and submit related enquiries.",
-    "submitNewEnquiry": "Submit a new enquiry",
+    "submitNewEnquiry": "Submit a general enquiry",
     "submitNewProject": "Submit a new project"
   },
   "loginButton": {
