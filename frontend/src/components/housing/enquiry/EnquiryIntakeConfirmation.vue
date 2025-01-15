@@ -4,12 +4,7 @@ import { Message } from '@/lib/primevue';
 import { RouteName } from '@/utils/enums/application';
 
 // Props
-const {
-  assignedActivityId,
-  showHeader = true,
-  showHomeLink = true
-} = defineProps<{
-  assignedActivityId: string;
+const { showHeader = true, showHomeLink = true } = defineProps<{
   showHeader?: boolean;
   showHomeLink?: boolean;
 }>();
@@ -25,7 +20,6 @@ const {
     >
       Your enquiry has been successfully submitted.
     </Message>
-    <h3>Enquiry ID: {{ assignedActivityId }}</h3>
     <div>
       Your submission will be reviewed and you will be contacted by your Housing Navigator in 2 business days. Please
       check your email for the confirmation email and keep the enquiry ID for future reference.

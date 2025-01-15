@@ -104,7 +104,6 @@ const handleCloseDialog = () => {
       </div>
       <div v-else>
         <EnquiryIntakeConfirmation
-          :assigned-activity-id="confirmationId"
           :show-header="false"
           :show-home-link="false"
         />

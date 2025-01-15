@@ -3,7 +3,6 @@ import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
-import { nextTick } from 'vue';
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils';
 
 import EnquiryIntakeForm from '@/components/housing/enquiry/EnquiryIntakeForm.vue';
@@ -129,101 +128,14 @@ describe('EnquiryIntakeForm', () => {
       const lastNameInput = wrapper.get('[name="contactLastName"]');
       const phoneInput = wrapper.get('[name="contactPhoneNumber"]');
       const emailInput = wrapper.get('[name="contactEmail"]');
-      const relationsInput = wrapper.get('[name="contactApplicantRelationship"]');
-      const contactInput = wrapper.get('[name="contactPreference"]');
-      const relatedInput = wrapper.findAll('[name="basic.isRelated"]');
 
       expect(firstNameInput.isVisible()).toBeTruthy();
       expect(lastNameInput.isVisible()).toBeTruthy();
       expect(phoneInput.isVisible()).toBeTruthy();
       expect(emailInput.isVisible()).toBeTruthy();
-      expect(relationsInput.isVisible()).toBeTruthy();
-      expect(contactInput.isVisible()).toBeTruthy();
-      expect(relatedInput[0].isVisible()).toBeTruthy();
-      expect(relatedInput[1].isVisible()).toBeTruthy();
 
       const descriptionInput = wrapper.find('[name="basic.enquiryDescription"]');
-      expect(descriptionInput.exists()).toBe(false);
-    });
-
-    it('renders the right input fields when isRelated is set to Yes', async () => {
-      const wrapper = mount(EnquiryIntakeForm, wrapperSettings());
-      await flushPromises();
-
-      const relatedRadio = wrapper.findAll('[name="basic.isRelated"]');
-      relatedRadio[0].setValue('Yes');
-      await nextTick();
-
-      const descriptionInput = wrapper.find('[name="basic.enquiryDescription"]');
-      const activityIdInput = wrapper.find('[name="basic.relatedActivityId"]');
-
-      expect(descriptionInput.isVisible()).toBeTruthy();
-      expect(activityIdInput.isVisible()).toBeTruthy();
-    });
-
-    it('renders the right input fields when isRelated is set to No', async () => {
-      const wrapper = mount(EnquiryIntakeForm, wrapperSettings());
-      await flushPromises();
-
-      const relatedRadio = wrapper.findAll('[name="basic.isRelated"]');
-      relatedRadio[1].setValue('No');
-      await nextTick();
-
-      const descriptionInput = wrapper.find('[name="basic.enquiryDescription"]');
-      const applyInput = wrapper.find('[name="basic.applyForPermitConnect"]');
-
-      expect(descriptionInput.isVisible()).toBeTruthy();
-      expect(applyInput.exists()).toBe(true);
-    });
-
-    it('disables submit when isRelated to existing application is No and applying to PCNS is Yes', async () => {
-      const wrapper = mount(EnquiryIntakeForm, wrapperSettings());
-      await flushPromises();
-
-      const relatedRadio = wrapper.findAll('[name="basic.isRelated"]');
-      relatedRadio[1].setValue('No');
-      await nextTick();
-
-      const applyInput = wrapper.findAll('[name="basic.applyForPermitConnect"]');
-      applyInput[0].setValue('Yes');
-      await nextTick();
-
-      const submitBtn = wrapper.get('[type="submit"]');
-      expect(submitBtn.attributes('disabled')).toBeDefined();
-    });
-
-    test('submit is enabled when isRelated to existing application is No applying to PCNS is No', async () => {
-      const wrapper = mount(EnquiryIntakeForm, wrapperSettings());
-      await flushPromises();
-
-      const relatedRadio = wrapper.findAll('[name="basic.isRelated"]');
-      relatedRadio[1].setValue('No');
-      await nextTick();
-
-      const applyInput = wrapper.findAll('[name="basic.applyForPermitConnect"]');
-      applyInput[1].setValue('No');
-      await nextTick();
-
-      const submitBtn = wrapper.get('[type="submit"]');
-      expect(submitBtn.attributes('disabled')).not.toBeDefined();
-    });
-
-    test('submit is enabled when Yes, No, or not selected for isRelated', async () => {
-      const wrapper = mount(EnquiryIntakeForm, wrapperSettings());
-      await flushPromises();
-
-      const submitBtn = wrapper.get('[type="submit"]');
-      await nextTick();
-      expect(submitBtn.attributes('disabled')).not.toBeDefined();
-
-      const relatedRadio = wrapper.findAll('[name="basic.isRelated"]');
-      relatedRadio[0].setValue('Yes');
-      await nextTick();
-      expect(submitBtn.attributes('disabled')).not.toBeDefined();
-
-      relatedRadio[1].setValue('No');
-      await nextTick();
-      expect(submitBtn.attributes('disabled')).not.toBeDefined();
+      expect(descriptionInput.exists()).toBe(true);
     });
   });
 
