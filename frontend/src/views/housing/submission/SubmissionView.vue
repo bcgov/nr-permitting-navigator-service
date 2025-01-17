@@ -29,7 +29,7 @@ import {
 } from '@/lib/primevue';
 import { submissionService, documentService, enquiryService, noteService, permitService } from '@/services';
 import { useAuthZStore, useSubmissionStore, useTypeStore } from '@/store';
-import { Action, Initiative, Resource } from '@/utils/enums/application';
+import { Action, Initiative, Resource, RouteName } from '@/utils/enums/application';
 import { ApplicationStatus } from '@/utils/enums/housing';
 import { formatDateLong } from '@/utils/formatters';
 import { getFilenameAndExtension } from '@/utils/utils';
@@ -120,6 +120,15 @@ const onDeleteNote = (note: Note) => submissionStore.removeNote(note);
 
 const onUpdateNote = (oldNote: Note, newNote: Note) => submissionStore.updateNote(oldNote, newNote);
 
+function navigateToProponentView() {
+  router.push({
+    name: RouteName.HOUSING_PROJECT,
+    params: {
+      submissionId: submissionId
+    }
+  });
+}
+
 function sortComparator(sortValue: number | undefined, a: any, b: any) {
   return sortValue === SORT_ORDER.ASCENDING ? (a > b ? 1 : -1) : a < b ? 1 : -1;
 }
@@ -164,23 +173,34 @@ onMounted(async () => {
     <span class="app-primary-color">Back to Submissions</span>
   </Button>
 
-  <h1>
-    <span v-if="getSubmission?.projectName">
-      <span class="ml-1">{{ getSubmission.projectName + ': ' }}</span>
-    </span>
-    <span
-      v-if="getSubmission?.activityId"
-      class="mr-1"
+  <div class="flex items-center justify-between">
+    <h1>
+      <span v-if="getSubmission?.projectName">
+        <span class="ml-1">{{ getSubmission.projectName + ': ' }}</span>
+      </span>
+      <span
+        v-if="getSubmission?.activityId"
+        class="mr-1"
+      >
+        {{ getSubmission.activityId }}
+      </span>
+      <span
+        v-if="isCompleted"
+        class="ml-0"
+      >
+        (Completed)
+      </span>
+    </h1>
+    <Button
+      outlined
+      @click="navigateToProponentView()"
+      @keydown.enter.prevent="navigateToProponentView()"
+      @keydown.space.prevent="navigateToProponentView()"
     >
-      {{ getSubmission.activityId }}
-    </span>
-    <span
-      v-if="isCompleted"
-      class="ml-0"
-    >
-      (Completed)
-    </span>
-  </h1>
+      <font-awesome-icon icon="fa-solid fa-eye" />
+      See Proponent's View
+    </Button>
+  </div>
 
   <Tabs :value="activeTab">
     <TabList>

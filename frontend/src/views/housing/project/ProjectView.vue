@@ -64,7 +64,6 @@ const { getPermitTypes } = storeToRefs(typeStore);
 // State
 const assignee: Ref<User | undefined> = ref(undefined);
 const breadcrumbItems: ComputedRef<Array<MenuItem>> = computed(() => [
-  { label: t('projectView.crumbAppsPermits'), route: RouteName.HOUSING_PROJECTS_LIST },
   { label: getSubmission?.value?.projectName ?? '', class: 'font-bold' }
 ]);
 const createdBy: Ref<User | undefined> = ref(undefined);
