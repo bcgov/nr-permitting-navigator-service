@@ -57,7 +57,7 @@ onMounted(async () => {
   [enquiries.value, projects.value, drafts.value] = (
     await Promise.all([
       enquiryService.getEnquiries(),
-      submissionService.getSubmissions(),
+      submissionService.searchSubmissions({ includeDeleted: false }),
       submissionService.getDrafts()
     ])
   ).map((r) => r.data);

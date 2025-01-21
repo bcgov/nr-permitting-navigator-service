@@ -263,6 +263,7 @@ const service = {
    * Search and filter for specific submission
    * @param {string[]} [params.activityId] Optional array of uuids representing the activity ID
    * @param {string[]} [params.intakeStatus] Optional array of strings representing the intake status
+   * @param {boolean}  [params.includeDeleted] Optional bool representing whether deleted submissions should be included
    * @param {boolean}  [params.includeUser] Optional boolean representing whether the linked user should be included
    * @param {string[]} [params.submissionId] Optional array of uuids representing the submission ID
    * @param {string[]} [params.submissionType] Optional array of strings representing the submission type
@@ -295,7 +296,8 @@ const service = {
           },
           {
             submission_type: { in: params.submissionType }
-          }
+          },
+          params.includeDeleted ? {} : { activity: { is_deleted: false } }
         ]
       }
     });

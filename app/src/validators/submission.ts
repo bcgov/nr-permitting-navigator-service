@@ -73,6 +73,7 @@ const schema = {
       activityId: Joi.array().items(Joi.string()),
       intakeStatus: Joi.array().items(...INTAKE_STATUS_LIST),
       includeUser: Joi.boolean(),
+      includeDeleted: Joi.boolean(),
       submissionId: Joi.array().items(uuidv4),
       submissionType: Joi.array().items(...SUBMISSION_TYPE_LIST)
     })

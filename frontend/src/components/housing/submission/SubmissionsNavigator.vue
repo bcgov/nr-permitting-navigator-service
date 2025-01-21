@@ -185,9 +185,6 @@ function refreshStatistics() {
 }
 
 onMounted(async () => {
-  // To pull data from CHEFS
-  await submissionService.getSubmissions();
-
   [enquiries.value, permits.value, submissions.value, statistics.value, bringForward.value] = (
     await Promise.all([
       enquiryService.getEnquiries(),

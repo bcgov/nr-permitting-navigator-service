@@ -31,11 +31,11 @@ afterEach(() => {
   sessionStorage.clear();
 });
 
-const getSubmissions = vi.spyOn(submissionService, 'getSubmissions');
 const getEnquiries = vi.spyOn(enquiryService, 'getEnquiries');
 const getDrafts = vi.spyOn(submissionService, 'getDrafts');
+const searchSubmissions = vi.spyOn(submissionService, 'searchSubmissions');
 
-getSubmissions.mockResolvedValue({ data: [{ activityId: 'someActivityid' }] } as AxiosResponse);
+searchSubmissions.mockResolvedValue({ data: [{ activityId: 'someActivityid' }] } as AxiosResponse);
 getEnquiries.mockResolvedValue({ data: [{ activityId: 'someActivityid' }] } as AxiosResponse);
 getDrafts.mockResolvedValue({ data: [{ activityId: 'someActivityid' }] } as AxiosResponse);
 

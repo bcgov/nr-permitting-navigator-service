@@ -159,6 +159,29 @@ describe('submissionService', () => {
       expect(getSpy).toHaveBeenCalledTimes(1);
       expect(getSpy).toHaveBeenCalledWith(`${PATH}/search`, { params: { activityId: testID } });
     });
+
+    it('calls endpoint with isDeleted=false if specified', () => {
+      submissionService.searchSubmissions({ activityId: testID, isDeleted: false });
+
+      expect(getSpy).toHaveBeenCalledTimes(1);
+      expect(getSpy).toHaveBeenCalledWith(`${PATH}/search`, {
+        params: {
+          activityId: testID,
+          isDeleted: false
+        }
+      });
+    });
+
+    it('calls endpoint with isDeleted=true if specified', () => {
+      submissionService.searchSubmissions({ isDeleted: true });
+
+      expect(getSpy).toHaveBeenCalledTimes(1);
+      expect(getSpy).toHaveBeenCalledWith(`${PATH}/search`, {
+        params: {
+          isDeleted: true
+        }
+      });
+    });
   });
 
   describe('submitDraft', () => {

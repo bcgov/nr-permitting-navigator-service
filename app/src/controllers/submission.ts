@@ -346,7 +346,8 @@ const controller = {
     try {
       let response = await submissionService.searchSubmissions({
         ...req.query,
-        includeUser: isTruthy(req.query.includeUser)
+        includeUser: isTruthy(req.query.includeUser),
+        includeDeleted: isTruthy(req.query.includeDeleted)
       });
 
       if (req.currentAuthorization?.attributes.includes('scope:self')) {
