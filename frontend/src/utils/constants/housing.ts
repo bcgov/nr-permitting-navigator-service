@@ -106,7 +106,11 @@ export const PERMIT_STATUS_LIST = [
   PermitStatus.COMPLETED
 ];
 
-export const PROJECT_LOCATION_LIST = [ProjectLocation.STREET_ADDRESS, ProjectLocation.LOCATION_COORDINATES];
+export const PROJECT_LOCATION_LIST = [
+  ProjectLocation.LOCATION_COORDINATES,
+  ProjectLocation.STREET_ADDRESS,
+  ProjectLocation.PIN_OR_DRAW
+];
 
 export const QUEUE_PRIORITY = [1, 2, 3];
 

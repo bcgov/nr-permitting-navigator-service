@@ -92,6 +92,7 @@ const testSubmission: Submission = {
   locality: 'Anytown',
   province: 'BC',
   locationPIDs: '123456789',
+  locationPIDsAuto: '123456789',
   latitude: 49.2827,
   longitude: -123.1207,
   geomarkUrl: 'http://example.com/geomark',

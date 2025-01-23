@@ -142,7 +142,8 @@ export const submissionIntakeSchema = object({
       otherwise: () => number().nullable().min(-139).max(-114).label('Longitude')
     }),
     ltsaPIDLookup: string().max(255).nullable().label('Parcel ID'),
-    geomarkUrl: string().max(255).label('Geomark web service url')
+    geomarkUrl: string().max(255).label('Geomark web service url'),
+    getJSON: mixed().nullable().label('geoJSON')
   }),
   [IntakeFormCategory.PERMITS]: object({
     hasAppliedProvincialPermits: string().oneOf(YES_NO_UNSURE_LIST).required().label('Applied permits')

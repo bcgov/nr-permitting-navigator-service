@@ -21,5 +21,13 @@ export default {
         ...ADDRESS_CODER_QUERY_PARAMS
       }
     });
+  },
+
+  async getNearestOccupant(longitude: string, lattitude: string) {
+    return geocoderAxios().get('/occupants/nearest.json', {
+      params: {
+        point: `${longitude},${lattitude}`
+      }
+    });
   }
 };
