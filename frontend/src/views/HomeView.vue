@@ -2,11 +2,15 @@
 import { useRouter } from 'vue-router';
 import { Button } from '@/lib/primevue';
 import { RouteName } from '@/utils/enums/application';
+import { useAuthZStore } from '@/store';
+import { NavigationPermission } from '@/store/authzStore';
 
 // Store
 const router = useRouter();
 const toHousing = (): void => {
-  router.push({ name: RouteName.HOUSING });
+  if (useAuthZStore().canNavigate(NavigationPermission.HOUSING_SUBMISSIONS))
+    router.push({ name: RouteName.HOUSING_SUBMISSIONS });
+  else router.push({ name: RouteName.HOUSING });
 };
 </script>
 

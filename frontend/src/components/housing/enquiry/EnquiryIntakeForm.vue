@@ -206,9 +206,11 @@ async function onSubmit(data: any) {
 
       router.push({
         name: RouteName.HOUSING_ENQUIRY_CONFIRMATION,
-        query: {
+        params: {
           activityId: enquiryResponse.data.activityId,
-          enquiryId: enquiryResponse.data.enquiryId,
+          enquiryId: enquiryResponse.data.enquiryId
+        },
+        query: {
           showEnquiryLink: projectName || permitName ? '' : 'true'
         }
       });

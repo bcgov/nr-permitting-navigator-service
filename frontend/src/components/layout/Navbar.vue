@@ -38,8 +38,8 @@ onMounted(() => {
       items: [
         {
           label: 'Submit a housing project to the Navigator Service',
-          route: RouteName.HOUSING_SUBMISSION_INTAKE,
-          access: NavigationPermission.HOUSING_SUBMISSION_INTAKE
+          route: RouteName.HOUSING_INTAKE,
+          access: NavigationPermission.HOUSING_INTAKE
         },
         {
           label: 'Submit general enquiries',
@@ -47,7 +47,7 @@ onMounted(() => {
           access: NavigationPermission.HOUSING_ENQUIRY_INTAKE
         }
       ],
-      access: NavigationPermission.HOUSING_DROPDOWN
+      access: [NavigationPermission.HOUSING_INTAKE, NavigationPermission.HOUSING_ENQUIRY_INTAKE]
     },
     {
       label: 'Submissions',
@@ -56,7 +56,7 @@ onMounted(() => {
     },
     {
       label: 'User Management',
-      route: RouteName.USER_MANAGEMENT,
+      route: RouteName.HOUSING_USER_MANAGEMENT,
       access: NavigationPermission.HOUSING_USER_MANAGEMENT
     },
     {
@@ -69,8 +69,7 @@ onMounted(() => {
       items: [
         {
           label: 'User Guide',
-          route: RouteName.HOUSING_GUIDE,
-          access: NavigationPermission.HOUSING_USER_GUIDE
+          route: RouteName.HOUSING_GUIDE
         },
         {
           label: 'Report a problem',
@@ -80,7 +79,7 @@ onMounted(() => {
         {
           label: 'Contact a Navigator',
           mailTo: `mailto:${HOUSING_CONTACT.email}?subject=${HOUSING_CONTACT.subject}`,
-          access: [NavigationPermission.HOUSING_SUBMISSION_INTAKE, NavigationPermission.HOUSING_ENQUIRY_INTAKE]
+          access: [NavigationPermission.HOUSING_INTAKE, NavigationPermission.HOUSING_ENQUIRY_INTAKE]
         }
       ],
       public: true

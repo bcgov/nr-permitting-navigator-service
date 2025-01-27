@@ -1,4 +1,4 @@
-import SubmissionConfirmationView from '@/views/housing/submission/SubmissionConfirmationView.vue';
+import SubmissionConfirmationView from '@/views/housing/submission/ProjectConfirmationView.vue';
 import { userService } from '@/services';
 import { createTestingPinia } from '@pinia/testing';
 import PrimeVue from 'primevue/config';

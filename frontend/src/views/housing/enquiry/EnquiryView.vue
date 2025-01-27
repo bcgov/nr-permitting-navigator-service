@@ -126,8 +126,9 @@ function onEnquiryFormSaved() {
           This activity is linked to Activity
           <router-link
             :to="{
-              name: RouteName.HOUSING_SUBMISSION,
-              query: { activityId: getEnquiry?.relatedActivityId, submissionId: relatedSubmission.submissionId }
+              name: RouteName.HOUSING_SUBMISSIONS_PROJECT,
+              params: { submissionId: relatedSubmission.submissionId },
+              query: { activityId: getEnquiry?.relatedActivityId }
             }"
           >
             {{ getEnquiry?.relatedActivityId }}

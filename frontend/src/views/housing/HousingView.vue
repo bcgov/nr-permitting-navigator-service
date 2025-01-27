@@ -132,7 +132,7 @@ onMounted(async () => {
           :text="t('housing.projectsTooltip')"
         />
       </div>
-      <Button @click="router.push({ name: RouteName.HOUSING_SUBMISSION_INTAKE })">
+      <Button @click="router.push({ name: RouteName.HOUSING_INTAKE })">
         {{ t('housing.submitNewProject') }}
         <font-awesome-icon
           class="ml-2"

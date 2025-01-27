@@ -310,8 +310,10 @@ watch(showCompleted, () => {
                     Bring forward {{ getBringForwardDate(bf) }}:
                     <router-link
                       :to="{
-                        name: bf.submissionId ? RouteName.HOUSING_SUBMISSION : RouteName.HOUSING_ENQUIRY,
-                        query: getQueryObject(bf),
+                        name: bf.submissionId
+                          ? RouteName.HOUSING_SUBMISSIONS_PROJECT
+                          : RouteName.HOUSING_SUBMISSIONS_ENQUIRY,
+                        params: getQueryObject(bf),
                         hash: `#${bf.noteId}`
                       }"
                     >

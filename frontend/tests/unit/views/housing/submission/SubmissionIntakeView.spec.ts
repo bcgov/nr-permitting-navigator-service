@@ -1,4 +1,4 @@
-import SubmissionIntakeView from '@/views/housing/submission/SubmissionIntakeView.vue';
+import SubmissionIntakeView from '@/views/housing/submission/ProjectIntakeView.vue';
 import { permitService } from '@/services';
 import { createTestingPinia } from '@pinia/testing';
 import PrimeVue from 'primevue/config';

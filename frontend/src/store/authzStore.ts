@@ -7,74 +7,53 @@ import type { Ref } from 'vue';
 import type { Permission } from '@/types';
 
 export enum NavigationPermission {
+  DEVELOPER = 'developer',
+
   HOUSING = 'housing',
-  HOUSING_CONTACT_MANAGEMENT = 'housing.contactmanagement',
-  HOUSING_DROPDOWN = 'housing.dropdown',
-  HOUSING_ENQUIRY = 'housing.enquiry',
-  HOUSING_ENQUIRY_INTAKE = 'housing.enquiry.intake',
-  HOUSING_SUBMISSION = 'housing.submission',
-  HOUSING_SUBMISSION_INTAKE = 'housing.submission.intake',
-  HOUSING_SUBMISSIONS = 'housing.submissions',
-  HOUSING_SUBMISSIONS_SUB = 'housing.submissions.sub',
-  HOUSING_STATUS_TRACKER = 'housing.statustracker',
-  HOUSING_USER_GUIDE = 'housing.userguide',
-  HOUSING_USER_MANAGEMENT = 'housing.usermanagement',
-  HOUSING_USER_MANAGEMENT_ADMIN = 'housing.usermanagementadmin',
-  DEVELOPER = 'developer'
+  HOUSING_ENQUIRY_INTAKE = 'housing_enquiry_intake',
+  HOUSING_INTAKE = 'housing_intake',
+  HOUSING_PROJECT = 'housing_project',
+  HOUSING_SUBMISSIONS = 'housing_submissions',
+  HOUSING_USER_MANAGEMENT = 'housing_user_management',
+  HOUSING_USER_MANAGEMENT_ADMIN = 'housing_user_management_admin',
+
+  USER = 'user'
 }
 
 const NavigationAuthorizationMap = [
   {
     group: GroupName.ADMIN,
     permissions: [
-      NavigationPermission.HOUSING_DROPDOWN,
-      NavigationPermission.HOUSING_ENQUIRY,
-      NavigationPermission.HOUSING_STATUS_TRACKER,
-      NavigationPermission.HOUSING_SUBMISSION,
       NavigationPermission.HOUSING_SUBMISSIONS,
       NavigationPermission.HOUSING_USER_MANAGEMENT,
-      NavigationPermission.HOUSING_USER_MANAGEMENT_ADMIN
+      NavigationPermission.HOUSING_USER_MANAGEMENT_ADMIN,
+      NavigationPermission.USER
     ]
   },
   {
     group: GroupName.NAVIGATOR,
-    permissions: [
-      NavigationPermission.HOUSING_DROPDOWN,
-      NavigationPermission.HOUSING_ENQUIRY,
-      NavigationPermission.HOUSING_STATUS_TRACKER,
-      NavigationPermission.HOUSING_SUBMISSION,
-      NavigationPermission.HOUSING_SUBMISSIONS
-    ]
+    permissions: [NavigationPermission.HOUSING_SUBMISSIONS, NavigationPermission.USER]
   },
   {
     group: GroupName.NAVIGATOR_READ_ONLY,
-    permissions: [
-      NavigationPermission.HOUSING_ENQUIRY,
-      NavigationPermission.HOUSING_SUBMISSION,
-      NavigationPermission.HOUSING_SUBMISSIONS
-    ]
+    permissions: [NavigationPermission.HOUSING_SUBMISSIONS, NavigationPermission.USER]
   },
   {
     group: GroupName.PROPONENT,
     permissions: [
       NavigationPermission.HOUSING,
-      NavigationPermission.HOUSING_CONTACT_MANAGEMENT,
-      NavigationPermission.HOUSING_DROPDOWN,
       NavigationPermission.HOUSING_ENQUIRY_INTAKE,
-      NavigationPermission.HOUSING_SUBMISSION_INTAKE,
-      NavigationPermission.HOUSING_SUBMISSIONS_SUB,
-      NavigationPermission.HOUSING_STATUS_TRACKER
+      NavigationPermission.HOUSING_INTAKE,
+      NavigationPermission.HOUSING_PROJECT,
+      NavigationPermission.USER
     ]
   },
   {
     group: GroupName.SUPERVISOR,
     permissions: [
-      NavigationPermission.HOUSING_DROPDOWN,
-      NavigationPermission.HOUSING_ENQUIRY,
-      NavigationPermission.HOUSING_STATUS_TRACKER,
-      NavigationPermission.HOUSING_SUBMISSION,
       NavigationPermission.HOUSING_SUBMISSIONS,
-      NavigationPermission.HOUSING_USER_MANAGEMENT
+      NavigationPermission.HOUSING_USER_MANAGEMENT,
+      NavigationPermission.USER
     ]
   }
 ];

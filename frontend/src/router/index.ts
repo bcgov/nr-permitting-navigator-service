@@ -1,6 +1,9 @@
 import { storeToRefs } from 'pinia';
-import { createRouter, createWebHistory, useRouter } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
+import { default as housingRoutes } from '@/router/housing';
+import { default as oidcRoutes } from '@/router/oidc';
+import { default as userRoutes } from '@/router/user';
 import { AuthService, contactService, yarsService } from '@/services';
 import { useAppStore, useAuthNStore, useAuthZStore, useContactStore } from '@/store';
 import { NavigationPermission } from '@/store/authzStore';
@@ -8,15 +11,17 @@ import { RouteName, StorageKey } from '@/utils/enums/application';
 
 import type { RouteLocationNormalizedGeneric, RouteRecordRaw } from 'vue-router';
 import type { Contact } from '@/types';
+
 /**
  * @function accessHandler
  * Checks for user access to the requested route and redirect if necessary
  * @param {object} to The route to navigate to
  * @returns {object} a Vue route
  */
-function accessHandler(to: RouteLocationNormalizedGeneric) {
+export function accessHandler(to: RouteLocationNormalizedGeneric) {
   const access = to.meta.access as NavigationPermission[];
 
+  console.log('Access: ', access);
   if (access && access.length) {
     const authzStore = useAuthZStore();
     if (!authzStore.canNavigate(access)) {
@@ -51,7 +56,7 @@ async function bootstrap() {
  * @param {object} route The route object
  * @returns {object} a Vue props object
  */
-function createProps(route: { query: any; params: any }): object {
+export function createProps(route: { query: any; params: any }): object {
   return { ...route.query, ...route.params };
 }
 
@@ -64,14 +69,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/',
         name: RouteName.HOME,
-        component: () => import('@/views/HomeView.vue')
-      },
-      {
-        path: '/contact/profile',
-        name: RouteName.CONTACT_PROFILE,
-        component: () => import('@/views/contact/ContactProfileView.vue'),
-        beforeEnter: accessHandler,
-        meta: { requiresAuth: true, access: [NavigationPermission.HOUSING_CONTACT_MANAGEMENT] }
+        component: () => import('@/views/HomeView.vue'),
+        meta: { hideBreadcrumb: true, hideNavbar: true }
       },
       {
         path: '/developer',
@@ -85,173 +84,16 @@ const routes: Array<RouteRecordRaw> = [
         name: RouteName.FORBIDDEN,
         component: () => import('@/views/Forbidden.vue')
       },
-      {
-        path: '/housing',
-        meta: { requiresAuth: true },
-        children: [
-          {
-            path: '',
-            name: RouteName.HOUSING,
-            component: () => import('../views/housing/HousingView.vue'),
-            beforeEnter: () => {
-              const authzStore = useAuthZStore();
-              if (!authzStore.canNavigate(NavigationPermission.HOUSING)) {
-                useRouter().replace({ name: RouteName.HOUSING_SUBMISSIONS });
-              }
-            },
-            meta: {
-              access: [NavigationPermission.HOUSING]
-            }
-          },
-          {
-            path: 'enquiry',
-            children: [
-              {
-                path: '',
-                name: RouteName.HOUSING_ENQUIRY,
-                component: () => import('../views/housing/enquiry/EnquiryView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_ENQUIRY]
-                }
-              },
-              {
-                path: 'confirmation',
-                name: RouteName.HOUSING_ENQUIRY_CONFIRMATION,
-                component: () => import('@/views/housing/enquiry/EnquiryConfirmationView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_ENQUIRY_INTAKE]
-                }
-              },
-              {
-                path: 'intake',
-                name: RouteName.HOUSING_ENQUIRY_INTAKE,
-                component: () => import('@/views/housing/enquiry/EnquiryIntakeView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_ENQUIRY_INTAKE]
-                }
-              }
-            ]
-          },
-          {
-            path: 'submission',
-            children: [
-              {
-                path: '',
-                name: RouteName.HOUSING_SUBMISSION,
-                component: () => import('@/views/housing/submission/SubmissionView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_SUBMISSION]
-                }
-              },
-              {
-                path: 'confirm',
-                name: RouteName.HOUSING_SUBMISSION_CONFIRMATION,
-                component: () => import('@/views/housing/submission/SubmissionConfirmationView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_SUBMISSION_INTAKE]
-                }
-              },
-              {
-                path: 'intake',
-                name: RouteName.HOUSING_SUBMISSION_INTAKE,
-                component: () => import('@/views/housing/submission/SubmissionIntakeView.vue'),
-                beforeEnter: accessHandler,
-                props: createProps,
-                meta: {
-                  access: [NavigationPermission.HOUSING_SUBMISSION_INTAKE]
-                }
-              }
-            ]
-          },
-          {
-            path: 'project',
-            meta: {
-              access: [NavigationPermission.HOUSING_STATUS_TRACKER]
-            },
-            children: [
-              {
-                path: ':submissionId',
-                component: () => import('@/views/housing/project/ProjectView.vue'),
-                beforeEnter: accessHandler,
-                meta: {
-                  access: [NavigationPermission.HOUSING_STATUS_TRACKER]
-                },
-                name: RouteName.HOUSING_PROJECT,
-                props: createProps
-              },
-              {
-                path: 'permit/:permitId',
-                component: () => import('@/views/permit/PermitStatusView.vue'),
-                beforeEnter: accessHandler,
-                meta: {
-                  access: [NavigationPermission.HOUSING_STATUS_TRACKER]
-                },
-                name: RouteName.HOUSING_PROJECT_PERMIT,
-                props: createProps
-              }
-            ]
-          },
-          {
-            path: 'submissions',
-            name: RouteName.HOUSING_SUBMISSIONS,
-            component: () => import('@/views/housing/SubmissionsView.vue'),
-            beforeEnter: accessHandler,
-            meta: {
-              access: [NavigationPermission.HOUSING_SUBMISSIONS, NavigationPermission.HOUSING_SUBMISSIONS_SUB]
-            }
-          },
-          {
-            path: '/guide',
-            name: RouteName.HOUSING_GUIDE,
-            component: () => import('@/views/ComingSoon.vue'),
-            meta: { access: [NavigationPermission.HOUSING] }
-          }
-        ]
-      },
-      {
-        path: '/oidc',
-        children: [
-          {
-            path: 'callback',
-            name: RouteName.OIDC_CALLBACK,
-            component: () => import('@/views/oidc/OidcCallbackView.vue'),
-            meta: { title: 'Authenticating...' }
-          },
-          {
-            path: 'login',
-            name: RouteName.OIDC_LOGIN,
-            component: () => import('@/views/oidc/OidcLoginView.vue'),
-            meta: { title: 'Logging in...' }
-          },
-          {
-            path: 'logout',
-            name: RouteName.OIDC_LOGOUT,
-            component: () => import('@/views/oidc/OidcLogoutView.vue'),
-            meta: { title: 'Logging out...' }
-          }
-        ]
-      },
-      {
-        path: '/user',
-        name: RouteName.USER_MANAGEMENT,
-        component: () => import('@/views/user/UserManagementView.vue'),
-        beforeEnter: accessHandler,
-        meta: { requiresAuth: true, access: [NavigationPermission.HOUSING_USER_MANAGEMENT] }
-      },
+
+      ...housingRoutes,
+      ...oidcRoutes,
+      ...userRoutes,
+
       {
         path: '/:pathMatch(.*)*',
         name: RouteName.NOT_FOUND,
-        component: () => import('@/views/NotFound.vue')
+        component: () => import('@/views/NotFound.vue'),
+        meta: { hideBreadcrumb: true }
       }
     ]
   }

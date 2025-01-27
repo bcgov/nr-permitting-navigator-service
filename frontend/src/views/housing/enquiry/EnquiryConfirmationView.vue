@@ -43,7 +43,8 @@ const { t } = useI18n();
       <router-link
         :to="{
           name: RouteName.HOUSING_ENQUIRY_INTAKE,
-          query: { activityId: activityId, enquiryId: enquiryId }
+          params: { enquiryId: enquiryId },
+          query: { activityId: activityId }
         }"
       >
         <span class="text-2xl">{{ activityId }}</span>

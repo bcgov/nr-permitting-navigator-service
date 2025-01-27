@@ -93,7 +93,7 @@ const filters = ref({
 // Actions
 function updateQueryParams() {
   router.replace({
-    name: RouteName.HOUSING_SUBMISSIONS,
+    name: router.currentRoute.value.name,
     query: {
       rows: pagination.value.rows ?? undefined,
       order: pagination.value.order ?? undefined,
@@ -175,8 +175,9 @@ function updateQueryParams() {
         <div :data-activityId="data.activityId">
           <router-link
             :to="{
-              name: RouteName.HOUSING_ENQUIRY,
-              query: { activityId: data.activityId, enquiryId: data.enquiryId }
+              name: RouteName.HOUSING_SUBMISSIONS_ENQUIRY,
+              params: { enquiryId: data.enquiryId },
+              query: { activityId: data.activityId }
             }"
           >
             {{ data.activityId }}

@@ -20,7 +20,7 @@ const items = ref([
     label: t('headerMenu.contactProfile'),
     icon: 'pi pi-user',
     command: () => {
-      router.push({ name: RouteName.CONTACT_PROFILE });
+      router.push({ name: RouteName.USER });
     }
   },
   {

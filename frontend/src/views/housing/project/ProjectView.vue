@@ -39,8 +39,6 @@ const { submissionId } = defineProps<{
 // Constants
 const { t } = useI18n();
 
-const BREADCRUMB_HOME: MenuItem = { label: t('projectView.crumbHousing'), route: RouteName.HOUSING };
-
 // Store
 const submissionStore = useSubmissionStore();
 const { getPermits, getRelatedEnquiries, getSubmission } = storeToRefs(submissionStore);
@@ -128,8 +126,9 @@ function permitFilter(config: PermitFilterConfig) {
 
 function navigateToSubmissionIntakeView() {
   router.push({
-    name: RouteName.HOUSING_SUBMISSION_INTAKE,
-    query: { activityId: getSubmission.value?.activityId, submissionId: getSubmission.value?.submissionId }
+    name: RouteName.HOUSING_PROJECT_INTAKE,
+    params: { submissionId: getSubmission.value?.submissionId },
+    query: { activityId: getSubmission.value?.activityId }
   });
 }
 onMounted(async () => {
@@ -142,7 +141,7 @@ onMounted(async () => {
     if (submissionValue) enquiriesValue = (await enquiryService.listRelatedEnquiries(submissionValue.activityId)).data;
   } catch {
     toast.error(t('projectView.toastProjectLoadFailed'));
-    router.replace({ name: RouteName.HOUSING_PROJECTS_LIST });
+    router.replace({ name: RouteName.HOUSING });
   }
 
   try {
@@ -168,10 +167,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Breadcrumb
-    :home="BREADCRUMB_HOME"
-    :model="breadcrumbItems"
-  />
+  <RouterView />
   <div
     v-if="!loading && getSubmission"
     class="app-primary-color"

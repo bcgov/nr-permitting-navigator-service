@@ -22,8 +22,9 @@ const { activityId, submissionId } = defineProps<{
     <h3 class="inline-block my-7 mr-2">Project ID:</h3>
     <router-link
       :to="{
-        name: RouteName.HOUSING_SUBMISSION_INTAKE,
-        query: { activityId: activityId, submissionId: submissionId }
+        name: RouteName.HOUSING_PROJECT,
+        params: { submissionId: submissionId },
+        query: { activityId: activityId }
       }"
     >
       <span class="text-2xl">{{ activityId }}</span>

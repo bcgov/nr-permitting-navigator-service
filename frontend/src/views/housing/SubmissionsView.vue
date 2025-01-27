@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 
 import BackButton from '@/components/common/BackButton.vue';
 import SubmissionsNavigator from '@/components/housing/submission/SubmissionsNavigator.vue';
-import SubmissionsProponent from '@/components/housing/submission/SubmissionsProponent.vue';
 import { useAuthZStore } from '@/store';
 import { NavigationPermission } from '@/store/authzStore';
 import { RouteName } from '@/utils/enums/application';
@@ -40,7 +39,4 @@ const getTitle = computed(() =>
     v-if="authzStore.canNavigate(NavigationPermission.HOUSING_SUBMISSIONS)"
     @submissions-navigator:completed="showCompleted = !showCompleted"
   />
-
-  <!-- Proponent view -->
-  <SubmissionsProponent v-else-if="authzStore.canNavigate(NavigationPermission.HOUSING_SUBMISSIONS_SUB)" />
 </template>

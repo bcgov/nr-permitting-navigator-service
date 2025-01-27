@@ -84,8 +84,8 @@ function onDelete(draftId: string) {
         <div :data-draftId="data.draftId">
           <router-link
             :to="{
-              name: RouteName.HOUSING_SUBMISSION_INTAKE,
-              query: { draftId: data.draftId }
+              name: RouteName.HOUSING_INTAKE_DRAFT,
+              params: { draftId: data.draftId }
             }"
           >
             {{ data.index }}

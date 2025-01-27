@@ -23,7 +23,6 @@ type CombinedPermit = Permit & PermitType;
 const { permitId, projectActivityId } = defineProps<{ permitId: string; projectActivityId?: string }>();
 
 // Constants
-const breadcrumbHome: MenuItem = { label: 'Housing', route: RouteName.HOUSING };
 const complete = (trackerStatus: string) => ({
   class: 'stage-blue',
   iconClass: 'complete',
@@ -219,10 +218,6 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <Breadcrumb
-    :home="breadcrumbHome"
-    :model="breadcrumbItems"
-  />
   <div class="permit-status-view">
     <h1 class="permit-name">
       {{ permit?.name }}

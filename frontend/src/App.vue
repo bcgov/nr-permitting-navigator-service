@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onErrorCaptured, ref } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
+import { RouterView, useRoute } from 'vue-router';
 
+import Breadcrumb from './components/common/Breadcrumb.vue';
 import { AppLayout, Navbar, ProgressLoader } from '@/components/layout';
 import { ConfirmDialog, Message, Toast, useToast } from '@/lib/primevue';
 import { useAppStore, useAuthNStore, useConfigStore } from '@/store';
-import { RouteName, ToastTimeout } from '@/utils/enums/application';
+import { ToastTimeout } from '@/utils/enums/application';
 
 import type { Ref } from 'vue';
 
 // Store
 const appStore = useAppStore();
-const router = useRouter();
+const route = useRoute();
 const { getIsLoading } = storeToRefs(appStore);
 const { getConfig } = storeToRefs(useConfigStore());
 
@@ -42,15 +43,7 @@ onErrorCaptured((e: Error) => {
 
   <AppLayout>
     <template #nav>
-      <Navbar
-        v-if="
-          router.currentRoute.value.name &&
-          router.currentRoute.value.name !== RouteName.HOME &&
-          ![RouteName.OIDC_LOGIN, RouteName.OIDC_CALLBACK, RouteName.OIDC_LOGOUT].includes(
-            router.currentRoute.value.name as any
-          )
-        "
-      />
+      <Navbar v-if="!route.meta.hideNavbar" />
     </template>
     <template #main>
       <Message
@@ -60,6 +53,7 @@ onErrorCaptured((e: Error) => {
       >
         {{ getConfig?.notificationBanner }}
       </Message>
+      <Breadcrumb v-if="!route.meta.hideBreadcrumb" />
       <RouterView v-if="ready" />
     </template>
   </AppLayout>
