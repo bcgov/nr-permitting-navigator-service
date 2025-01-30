@@ -14,7 +14,8 @@ export type Submission = {
   locationPIDs: string | null;
   companyNameRegistered: string | null;
   consentToFeedback: boolean;
-  geoJSON: Prisma.JsonValue;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  geoJSON: any;
   projectName: string | null;
   projectDescription: string | null;
   singleFamilyUnits: string | null;
