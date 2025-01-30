@@ -28,6 +28,7 @@ config:
     SERVER_OBJECTSTORAGE_KEY: dev
     SERVER_OIDC_AUTHORITY: https://dev.loginproxy.gov.bc.ca/auth/realms/standard
     SERVER_OIDC_PUBLICKEY: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuy7zfh2ZgpDV5mH/aXyLDTddZK81rGakJcTy4KvCNOkDDxt1KAhW02lmbCo8YhHCOzjNZBp1+Vi6QiMRgBqAe2GTPZYEiV70aXfROGZe3Nvwcjbtki6HoyRte3SpqLJEIPL2F+hjJkw1UPGnjPTWZkEx9p74b9i3BjuE8RnjJ0Sza2MWw83zoQUZEJRGiopSL0yuVej6t2LO2btVdVf7QuZfPt9ehkcQYlPKpVvJA+pfeqPAdnNt7OjEIeYxinjurZr8Z04hz8UhkRefcWlSbFzFQYmL7O7iArjW0bsSvq8yNUd5r0KCOQkFduwZy26yTzTxj8OLFT91fEmbBBl4rQIDAQAB
+    SERVER_OPENMAPS_APIPATH: https://openmaps.gov.bc.ca
     SERVER_PORT: "8080"
     SERVER_SSO_APIPATH: https://api.loginproxy.gov.bc.ca/api/v1
     SERVER_SSO_TOKENURL: https://loginproxy.gov.bc.ca/auth/realms/standard/protocol/openid-connect/token

@@ -81,6 +81,9 @@
       "clientSecret": "SERVER_OIDC_CLIENTSECRET",
       "publicKey": "SERVER_OIDC_PUBLICKEY"
     },
+    "openMaps": {
+      "apiPath": "SERVER_OPENMAPS_APIPATH"
+    },
     "port": "SERVER_PORT",
     "sso": {
       "apiPath": "SERVER_SSO_APIPATH",

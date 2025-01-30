@@ -35,6 +35,7 @@ const service = {
    */
   createSubmission: async (data: Partial<Submission>) => {
     const response = await prisma.submission.create({
+      // @ts-expect-error 2322
       data: { ...submission.toPrismaModel(data as Submission), created_at: data.createdAt, created_by: data.createdBy },
       include: {
         activity: {
@@ -48,7 +49,7 @@ const service = {
         }
       }
     });
-
+    // @ts-expect-error 2322
     return submission.fromPrismaModelWithContact(response);
   },
 
@@ -357,6 +358,7 @@ const service = {
   updateSubmission: async (data: Submission) => {
     try {
       const result = await prisma.submission.update({
+        // @ts-expect-error 2322
         data: { ...submission.toPrismaModel(data), updated_at: data.updatedAt, updated_by: data.updatedBy },
         where: {
           submission_id: data.submissionId
@@ -373,7 +375,7 @@ const service = {
           }
         }
       });
-
+      // @ts-expect-error 2322
       return submission.fromPrismaModelWithContact(result);
     } catch (e: unknown) {
       throw e;

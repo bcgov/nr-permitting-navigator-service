@@ -7,6 +7,7 @@ export { default as contactService } from './contactService';
 export { default as documentService } from './documentService';
 export { default as enquiryService } from './enquiryService';
 export { default as externalApiService } from './externalApiService';
+export { default as mapService } from './mapService';
 export { default as noteService } from './noteService';
 export { default as permitService } from './permitService';
 export { default as roadmapService } from './roadmapService';

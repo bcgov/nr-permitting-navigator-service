@@ -123,7 +123,6 @@ const assistanceAssignedEnquiryId: Ref<string | undefined> = ref(undefined);
 const autoSaveRef: Ref<InstanceType<typeof FormAutosave> | null> = ref(null);
 const editable: Ref<boolean> = ref(true);
 const formRef: Ref<InstanceType<typeof Form> | null> = ref(null);
-const geoJSON: Ref<string | undefined> = ref(undefined);
 const geomarkAccordionIndex: Ref<number | undefined> = ref(undefined);
 const initialFormValues: Ref<any | undefined> = ref(undefined);
 const isSubmittable: Ref<boolean> = ref(false);
@@ -575,12 +574,12 @@ watch(
     if (activeStep.value === 3) isSubmittable.value = true;
   }
 );
+
 function onPolygonUpdate(data: any) {
   formRef.value?.setFieldValue('location.geoJSON', data.geoJSON);
-  geoJSON.value = data.geoJSON;
   clearAddress();
-  // locationPIDs.value = data.PID;
 }
+
 function onPinUpdate(pinUpdateEvent: PinUpdateEvent) {
   const addressSplit = pinUpdateEvent.address.split(',');
   formRef.value?.setFieldValue('location.streetAddress', addressSplit[0]);
@@ -588,13 +587,19 @@ function onPinUpdate(pinUpdateEvent: PinUpdateEvent) {
   formRef.value?.setFieldValue('location.province', addressSplit[2]);
   formRef.value?.setFieldValue('location.latitude', pinUpdateEvent.latitude);
   formRef.value?.setFieldValue('location.longitude', pinUpdateEvent.longitude);
+  clearGeoJSON();
 }
+
 function clearAddress() {
-  formRef.value?.setFieldValue('location.streetAddress', null);
-  formRef.value?.setFieldValue('location.locality', null);
-  formRef.value?.setFieldValue('location.province', null);
-  formRef.value?.setFieldValue('location.latitude', null);
-  formRef.value?.setFieldValue('location.longitude', null);
+  formRef.value?.resetField('location.streetAddress');
+  formRef.value?.resetField('location.locality');
+  formRef.value?.resetField('location.province');
+  formRef.value?.resetField('location.latitude');
+  formRef.value?.resetField('location.longitude');
+}
+
+function clearGeoJSON() {
+  formRef.value?.resetField('location.geoJSON');
 }
 </script>
 
@@ -1439,6 +1444,10 @@ function clearAddress() {
                     :disabled="!editable"
                     :latitude="mapLatitude"
                     :longitude="mapLongitude"
+                    @map:erased="
+                      clearGeoJSON();
+                      clearAddress();
+                    "
                     @map:polygon-updated="onPolygonUpdate"
                     @map:pin-updated="onPinUpdate"
                   />

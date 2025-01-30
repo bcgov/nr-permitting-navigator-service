@@ -3,6 +3,7 @@ export { default as atsController } from './ats';
 export { default as contactController } from './contact';
 export { default as documentController } from './document';
 export { default as enquiryController } from './enquiry';
+export { default as mapController } from './map';
 export { default as noteController } from './note';
 export { default as permitController } from './permit';
 export { default as permitNoteController } from './permitNote';

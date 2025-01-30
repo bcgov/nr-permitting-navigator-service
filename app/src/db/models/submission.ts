@@ -56,6 +56,8 @@ export default {
       consent_to_feedback: input.consentToFeedback,
       location_pids: input.locationPIDs,
       company_name_registered: input.companyNameRegistered,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      geo_json: input.geoJSON as any,
       single_family_units: input.singleFamilyUnits,
       has_rental_units: input.hasRentalUnits,
       street_address: input.streetAddress,
@@ -110,6 +112,7 @@ export default {
       projectName: input.project_name,
       projectDescription: input.project_description,
       companyNameRegistered: input.company_name_registered,
+      geoJSON: input.geo_json,
       singleFamilyUnits: input.single_family_units,
       hasRentalUnits: input.has_rental_units,
       streetAddress: input.street_address,

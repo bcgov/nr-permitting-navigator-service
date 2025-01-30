@@ -1,7 +1,7 @@
 import SubmissionForm from '@/components/housing/submission/SubmissionForm.vue';
 import { ApplicationStatus } from '@/utils/enums/housing';
 import { GroupName } from '@/utils/enums/application';
-import { userService } from '@/services';
+import { mapService, userService } from '@/services';
 import { createTestingPinia } from '@pinia/testing';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
@@ -11,9 +11,11 @@ import type { Submission, IDIRAttribute, BasicBCeIDAttribute, BusinessBCeIDAttri
 
 import type { AxiosResponse } from 'axios';
 
+const getPIDs = vi.spyOn(mapService, 'getPIDs');
 const useUserService = vi.spyOn(userService, 'searchUsers');
 
 useUserService.mockResolvedValue({ data: [{ fullName: 'dummyName' }] } as AxiosResponse);
+getPIDs.mockResolvedValue({ data: { pids: ['123456789'] } } as AxiosResponse);
 
 const currentDate = new Date().toISOString();
 

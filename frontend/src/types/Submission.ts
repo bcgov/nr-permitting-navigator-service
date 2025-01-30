@@ -15,7 +15,7 @@ export type Submission = {
   companyNameRegistered: string;
   consentToFeedback?: boolean;
   isDevelopedInBC: string;
-  geoJSON?: string;
+  geoJSON?: any;
   projectName: string;
   projectDescription: string;
   projectLocationDescription: string;
@@ -37,7 +37,6 @@ export type Submission = {
   locality: string;
   province: string;
   locationPIDs: string;
-  locationPIDsAuto?: string;
   latitude: number;
   longitude: number;
   geomarkUrl: string;

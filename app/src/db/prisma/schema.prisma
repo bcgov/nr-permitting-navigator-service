@@ -293,6 +293,7 @@ model submission {
   housing_coop_description           String?
   submission_type                    String?
   consent_to_feedback                Boolean   @default(false)
+  geo_json                           Json?     @db.Json
   activity                           activity  @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, map: "submission_activity_id_foreign")
   user                               user?     @relation(fields: [assigned_user_id], references: [user_id], onDelete: Cascade, map: "submission_assigned_user_id_foreign")
 

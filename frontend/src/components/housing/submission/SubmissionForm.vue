@@ -20,7 +20,7 @@ import ATSUserLinkModal from '@/components/user/ATSUserLinkModal.vue';
 import ATSUserCreateModal from '@/components/user/ATSUserCreateModal.vue';
 import ATSUserDetailsModal from '@/components/user/ATSUserDetailsModal.vue';
 import { Button, Message, useConfirm, useToast } from '@/lib/primevue';
-import { submissionService, userService } from '@/services';
+import { mapService, submissionService, userService } from '@/services';
 import { useSubmissionStore } from '@/store';
 import { YES_NO_LIST, YES_NO_UNSURE_LIST } from '@/utils/constants/application';
 import {
@@ -242,7 +242,8 @@ const onSubmit = async (values: any) => {
         'contactPhoneNumber',
         'contactEmail',
         'contactApplicantRelationship',
-        'contactPreference'
+        'contactPreference',
+        'locationPIDsAuto'
       ]
     );
 
@@ -292,6 +293,8 @@ onMounted(async () => {
     assigneeOptions.value = (await userService.searchUsers({ userId: [submission.assignedUserId] })).data;
   }
 
+  const locationPIDsAuto = (await mapService.getPIDs(submission.submissionId)).data;
+
   // Default form values
   initialFormValues.value = {
     activityId: submission.activityId,
@@ -324,7 +327,7 @@ onMounted(async () => {
     locality: submission.locality,
     province: submission.province,
     locationPIDs: submission.locationPIDs,
-    locationPIDsAuto: submission.locationPIDsAuto,
+    locationPIDsAuto: locationPIDsAuto,
     latitude: submission.latitude,
     longitude: submission.longitude,
     geomarkUrl: submission.geomarkUrl,
@@ -670,13 +673,13 @@ onMounted(async () => {
         :options="YES_NO_LIST"
       />
       <TextArea
-        class="col-12"
+        class="col-span-12"
         name="locationPIDsAuto"
-        label="Auto Generated Location PID(s)"
-        :disabled="!editable"
+        label="Auto generated location PID(s)"
+        :disabled="true"
       />
       <TextArea
-        class="col-12"
+        class="col-span-12"
         name="projectLocationDescription"
         label="Additional information about location"
         :disabled="!editable"

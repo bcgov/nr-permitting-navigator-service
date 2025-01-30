@@ -43,7 +43,7 @@ const toast = useToast();
 const oldLayer = ref<L.Layer | undefined>(undefined);
 
 // Emits
-const emit = defineEmits(['map:polygonUpdated', 'map:pinUpdated']);
+const emit = defineEmits(['map:polygonUpdated', 'map:pinUpdated', 'map:erased']);
 
 async function initMap() {
   L.Icon.Default.prototype = new L.Icon(MAP_ICON_OPTIONS_RED);
@@ -93,6 +93,10 @@ async function initMap() {
       } catch (e: any) {
         toast.error('Error', e.message);
       }
+    });
+    // On erase
+    map.on('pm:remove', () => {
+      emit('map:erased');
     });
     initControls();
   }
