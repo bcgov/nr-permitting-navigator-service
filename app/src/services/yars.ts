@@ -237,6 +237,16 @@ const service = {
     } catch (e: unknown) {
       throw e;
     }
+  },
+
+  getGroupRolePolicyVw: async () => {
+    try {
+      const response = await prisma.group_role_policy_vw.findMany({});
+
+      return JSON.parse(JSON.stringify(response, (_key, value) => (typeof value === 'bigint' ? Number(value) : value)));
+    } catch (e: unknown) {
+      throw e;
+    }
   }
 };
 

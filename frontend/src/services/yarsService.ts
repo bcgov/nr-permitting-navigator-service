@@ -16,5 +16,9 @@ export default {
 
   deleteSubjectGroup(data: { sub: string; group: GroupName }): Promise<AxiosResponse> {
     return appAxios().delete(`${PATH}/subject/group`, { data });
+  },
+
+  getGroupRolePolicyVw(): Promise<AxiosResponse> {
+    return appAxios().get(`${PATH}/group_role_policy_vw`);
   }
 };

@@ -43,6 +43,15 @@ const controller = {
     } catch (e: unknown) {
       next(e);
     }
+  },
+
+  getGroupRolePolicyVw: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await yarsService.getGroupRolePolicyVw();
+      res.status(200).json(response);
+    } catch (e: unknown) {
+      next(e);
+    }
   }
 };
 

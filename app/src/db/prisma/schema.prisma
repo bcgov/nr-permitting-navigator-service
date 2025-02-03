@@ -531,6 +531,7 @@ view group_role_policy_vw {
   policy_id       Int?
   resource_name   String?
   action_name     String?
+  attribute_name  String?
 
   @@schema("yars")
 }
