@@ -56,8 +56,7 @@ export default {
       consent_to_feedback: input.consentToFeedback,
       location_pids: input.locationPIDs,
       company_name_registered: input.companyNameRegistered,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      geo_json: input.geoJSON as any,
+      geo_json: input.geoJSON,
       single_family_units: input.singleFamilyUnits,
       has_rental_units: input.hasRentalUnits,
       street_address: input.streetAddress,

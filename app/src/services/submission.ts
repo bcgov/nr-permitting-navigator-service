@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 import axios from 'axios';
 import config from 'config';
+import { Prisma } from '@prisma/client';
 
 import prisma from '../db/dataConnection';
 import { submission } from '../db/models';
@@ -34,9 +35,14 @@ const service = {
    * @returns {Promise<Partial<Submission>>} The result of running the transaction
    */
   createSubmission: async (data: Partial<Submission>) => {
+    const s = submission.toPrismaModel(data as Submission);
     const response = await prisma.submission.create({
-      // @ts-expect-error 2322
-      data: { ...submission.toPrismaModel(data as Submission), created_at: data.createdAt, created_by: data.createdBy },
+      data: {
+        ...s,
+        geo_json: s.geo_json as Prisma.InputJsonValue,
+        created_at: data.createdAt,
+        created_by: data.createdBy
+      },
       include: {
         activity: {
           include: {
@@ -49,7 +55,6 @@ const service = {
         }
       }
     });
-    // @ts-expect-error 2322
     return submission.fromPrismaModelWithContact(response);
   },
 
@@ -357,9 +362,14 @@ const service = {
    */
   updateSubmission: async (data: Submission) => {
     try {
+      const s = submission.toPrismaModel(data);
       const result = await prisma.submission.update({
-        // @ts-expect-error 2322
-        data: { ...submission.toPrismaModel(data), updated_at: data.updatedAt, updated_by: data.updatedBy },
+        data: {
+          ...s,
+          geo_json: s.geo_json as Prisma.InputJsonValue,
+          updated_at: data.updatedAt,
+          updated_by: data.updatedBy
+        },
         where: {
           submission_id: data.submissionId
         },
@@ -375,7 +385,6 @@ const service = {
           }
         }
       });
-      // @ts-expect-error 2322
       return submission.fromPrismaModelWithContact(result);
     } catch (e: unknown) {
       throw e;

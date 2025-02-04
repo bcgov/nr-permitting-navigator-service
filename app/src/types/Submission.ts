@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import { IStamps } from '../interfaces/IStamps';
 
 import type { Contact } from './Contact';
@@ -12,8 +14,7 @@ export type Submission = {
   locationPIDs: string | null;
   companyNameRegistered: string | null;
   consentToFeedback: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  geoJSON: any;
+  geoJSON: Prisma.JsonValue;
   projectName: string | null;
   projectDescription: string | null;
   singleFamilyUnits: string | null;
