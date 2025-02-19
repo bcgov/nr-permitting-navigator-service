@@ -22,11 +22,13 @@ import type { Ref } from 'vue';
 // Props
 const {
   disabled = false,
+  geoJsonData = undefined,
   latitude = undefined,
   longitude = undefined,
   pinOrDraw = false
 } = defineProps<{
   disabled?: boolean;
+  geoJsonData?: GeoJSON;
   latitude?: number;
   longitude?: number;
   pinOrDraw?: boolean;
@@ -35,6 +37,9 @@ const {
 // Constants
 const POINT = 'Point';
 
+// Emits
+const emit = defineEmits(['map:polygonUpdated', 'map:pinUpdated', 'map:erased']);
+
 // Actions
 let marker: L.Marker;
 let map: L.Map;
@@ -42,8 +47,21 @@ const geoJSON: Ref<GeoJSON | undefined> = ref(undefined);
 const toast = useToast();
 const oldLayer = ref<L.Layer | undefined>(undefined);
 
-// Emits
-const emit = defineEmits(['map:polygonUpdated', 'map:pinUpdated', 'map:erased']);
+const drawControlOptions = {
+  position: 'topleft' as L.ControlPosition,
+
+  // Create
+  drawCircleMarker: false,
+  drawCircle: false,
+  drawText: false,
+  drawPolyline: false,
+
+  // Edit
+  cutPolygon: false,
+  dragMode: false,
+  editMode: false,
+  rotateMode: false
+};
 
 async function initMap() {
   L.Icon.Default.prototype = new L.Icon(MAP_ICON_OPTIONS_RED);
@@ -87,9 +105,7 @@ async function initMap() {
           emit('map:polygonUpdated', { geoJSON: geoJSON.value });
         }
         // Zoom in
-        if (geo.getBounds) map.fitBounds(geo.getBounds());
-        //@ts-ignore - insufficient type definitions
-        else map.flyTo(geo.getLatLng(), 17);
+        zoomToGeometry(geo);
       } catch (e: any) {
         toast.error('Error', e.message);
       }
@@ -98,7 +114,6 @@ async function initMap() {
     map.on('pm:remove', () => {
       emit('map:erased');
     });
-    initControls();
   }
 }
 
@@ -125,25 +140,9 @@ async function getNearestOccupant(longitude: string, latitude: string) {
   });
 }
 
-function initControls() {
-  map.pm.addControls({
-    position: 'topleft',
-
-    // Create
-    drawCircleMarker: false,
-    drawCircle: false,
-    drawText: false,
-    drawPolyline: false,
-
-    // Edit
-    cutPolygon: false,
-    dragMode: false,
-    editMode: false,
-    rotateMode: false
-  });
-}
-
 function disableInteraction() {
+  map.pm.removeControls();
+
   map.dragging.disable();
   map.touchZoom.disable();
   map.doubleClickZoom.disable();
@@ -154,6 +153,8 @@ function disableInteraction() {
 }
 
 function enableInteraction() {
+  map.pm.addControls(drawControlOptions);
+
   map.dragging.enable();
   map.touchZoom.enable();
   map.doubleClickZoom.enable();
@@ -166,7 +167,14 @@ function enableInteraction() {
 // Map component will be misaligned if mounted while not visible. Trigger resize to fix on show
 // Parent component needs to trigger nextTick().then(() => mapRef?.value?.resizeMap()
 function resizeMap() {
-  if (map) map.invalidateSize();
+  if (map) {
+    map.invalidateSize();
+    map.eachLayer((layer) => {
+      if (layer instanceof L.GeoJSON) {
+        zoomToGeometry(layer);
+      }
+    });
+  }
 }
 
 function setAddressMarker(coords: any) {
@@ -177,10 +185,28 @@ function setAddressMarker(coords: any) {
   map.addLayer(marker);
 }
 
+function zoomToGeometry(geoObject: L.GeoJSON) {
+  // Zoom in
+  if (geoObject.getBounds) map.fitBounds(geoObject.getBounds());
+  //@ts-ignore - insufficient type definitions
+  else map.flyTo(geo.getLatLng(), 17);
+}
+
+async function drawGeoJson() {
+  const geo = L.geoJSON(geoJsonData) as L.GeoJSON;
+  geo.addTo(map);
+  return geo;
+}
+
 defineExpose({ resizeMap });
 
 onMounted(async () => {
   await initMap();
+
+  if (geoJsonData) drawGeoJson();
+  if (disabled) disableInteraction();
+  else enableInteraction();
+
   // Clear all markers on mount
   removeAllMarkers();
 });
@@ -195,8 +221,8 @@ onUpdated(async () => {
 
 watch(
   () => disabled,
-  (val) => {
-    if (val) disableInteraction();
+  () => {
+    if (disabled) disableInteraction();
     else enableInteraction();
   }
 );
