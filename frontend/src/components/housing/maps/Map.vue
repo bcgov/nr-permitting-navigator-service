@@ -185,9 +185,9 @@ function setAddressMarker(coords: any) {
   map.addLayer(marker);
 }
 
-function zoomToGeometry(geoObject: L.GeoJSON) {
+function zoomToGeometry(geo: L.GeoJSON) {
   // Zoom in
-  if (geoObject.getBounds) map.fitBounds(geoObject.getBounds());
+  if (geo.getBounds) map.fitBounds(geo.getBounds());
   //@ts-ignore - insufficient type definitions
   else map.flyTo(geo.getLatLng(), 17);
 }
