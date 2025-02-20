@@ -186,13 +186,14 @@ function setAddressMarker(coords: any) {
 }
 
 function zoomToGeometry(geo: L.GeoJSON) {
+  if (!geo) return;
   // Zoom in
   if (geo.getBounds) map.fitBounds(geo.getBounds());
   //@ts-ignore - insufficient type definitions
   else map.flyTo(geo.getLatLng(), 17);
 }
 
-async function drawGeoJson() {
+function drawGeoJson() {
   const geo = L.geoJSON(geoJsonData) as L.GeoJSON;
   geo.addTo(map);
   return geo;
